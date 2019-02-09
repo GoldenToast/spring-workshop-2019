@@ -7,5 +7,5 @@ import java.util.Optional;
 
 @RepositoryRestResource
 public interface EnclosureTypeRepository extends JpaRepository<EnclosureType, Long> {
-    Optional<EnclosureType> findByValue(String value);
+    Optional<EnclosureType> findByName(String value);
 }

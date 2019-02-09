@@ -47,11 +47,11 @@ public class InitialZooLoader implements ApplicationListener<ContextRefreshedEve
     @Transactional
     public void createEnclosures() {
         final Enclosure enclosure = new Enclosure();
-        enclosure.setName("Affenhaus");
+        enclosure.setName("Ape House");
         enclosure.setLength(1);
         enclosure.setWidth(1);
 
-        enclosure.setType(enclosureTypeRepository.findByValue("Cage").orElse(null));
+        enclosure.setType(enclosureTypeRepository.findByName("Cage").orElse(null));
 
         enclosureRepository.save(enclosure);
     }
@@ -59,7 +59,7 @@ public class InitialZooLoader implements ApplicationListener<ContextRefreshedEve
     @Transactional
     public void createEnclosureTypes() {
         final EnclosureType cage = new EnclosureType();
-        cage.setValue("Cage");
+        cage.setName("Cage");
 
         enclosureTypeRepository.save(cage);
     }

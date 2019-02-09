@@ -18,5 +18,5 @@ public class EnclosureType {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String value;
+    private String name;
 }
