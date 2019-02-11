@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Animal {
+public class Species {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
