@@ -14,6 +14,7 @@ import de.inmediasp.springws.zoo.animals.Monkey;
 import de.inmediasp.springws.zoo.animals.MonkeyRepository;
 import de.inmediasp.springws.zoo.animals.Species;
 import de.inmediasp.springws.zoo.animals.SpeciesRepository;
+import de.inmediasp.springws.zoo.buildings.Building;
 import de.inmediasp.springws.zoo.buildings.Enclosure;
 import de.inmediasp.springws.zoo.buildings.EnclosureRepository;
 import de.inmediasp.springws.zoo.buildings.EnclosureType;
@@ -121,9 +122,8 @@ public class InitialZooLoader implements ApplicationListener<ContextRefreshedEve
     public void createEnclosures() {
         final Enclosure enclosure = new Enclosure();
         enclosure.setName("Ape House");
-        enclosure.setLength(1);
-        enclosure.setWidth(1);
-
+        enclosure.setSize(new Building.Size(10, 10));
+        enclosure.setLocation(new Building.Location(0, 0));
         enclosure.setType(enclosureTypeRepository.findByName("Cage").orElse(null));
 
         enclosureRepository.save(enclosure);
