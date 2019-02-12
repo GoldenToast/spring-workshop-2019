@@ -1,9 +1,11 @@
 package de.inmediasp.springws.zoo;
 
+import de.inmediasp.springws.zoo.buildings.Building;
 import de.inmediasp.springws.zoo.buildings.Enclosure;
 import de.inmediasp.springws.zoo.buildings.EnclosureRepository;
 import de.inmediasp.springws.zoo.buildings.EnclosureType;
 import de.inmediasp.springws.zoo.buildings.EnclosureTypeRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -48,9 +50,8 @@ public class InitialZooLoader implements ApplicationListener<ContextRefreshedEve
     public void createEnclosures() {
         final Enclosure enclosure = new Enclosure();
         enclosure.setName("Ape House");
-        enclosure.setLength(1);
-        enclosure.setWidth(1);
-
+        enclosure.setSize(new Building.Size(10,10));
+        enclosure.setLocation(new Building.Location(0,0));
         enclosure.setType(enclosureTypeRepository.findByName("Cage").orElse(null));
 
         enclosureRepository.save(enclosure);
