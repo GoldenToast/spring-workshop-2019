@@ -1,5 +1,9 @@
 package de.inmediasp.springws.zoo;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -7,9 +11,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.inmediasp.springws.zoo.animals.Monkey;
+import de.inmediasp.springws.zoo.animals.MonkeyRepository;
 import de.inmediasp.springws.zoo.animals.Species;
 import de.inmediasp.springws.zoo.animals.SpeciesRepository;
-import de.inmediasp.springws.zoo.animals.MonkeyRepository;
 import de.inmediasp.springws.zoo.buildings.Enclosure;
 import de.inmediasp.springws.zoo.buildings.EnclosureRepository;
 import de.inmediasp.springws.zoo.buildings.EnclosureType;
@@ -23,6 +27,10 @@ public class InitialZooLoader implements ApplicationListener<ContextRefreshedEve
     private final EnclosureTypeRepository enclosureTypeRepository;
 
     private boolean alreadySetup;
+
+    private final List<String> species = Arrays.asList("gorilla", "mandrill", "orangutan", "chimpanzee");
+    private final List<String> colors = Arrays.asList("black", "brown", "red", "grey");
+    private final Random random = new Random();
 
     @Autowired
     public InitialZooLoader(final SpeciesRepository speciesRepository, final MonkeyRepository monkeyRepository, final EnclosureRepository enclosureRepository,
@@ -72,25 +80,41 @@ public class InitialZooLoader implements ApplicationListener<ContextRefreshedEve
         kong.setType(speciesRepository.findByName("gorilla").orElse(null));
 
         monkeyRepository.save(kong);
+
+        createRandomMonkeys(1000);
+    }
+
+    @Transactional
+    public void createRandomMonkeys(final int numberOfRandomMonkeys) {
+        for (int i = 0; i < numberOfRandomMonkeys; ++i) {
+            final Monkey monkey = new Monkey();
+
+            monkey.setAge(random.nextInt(100) + 1);
+            monkey.setColor(colors.get(random.nextInt(4)));
+            monkey.setHeight(random.nextInt(140) + 20);
+            monkey.setType(speciesRepository.findByName(species.get(random.nextInt(4))).orElse(null));
+            monkey.setName(createRandomWord());
+
+            monkeyRepository.save(monkey);
+        }
+    }
+
+    private String createRandomWord() {
+        final char[] word = new char[random.nextInt(10) + 5];
+        for (int j = 0; j < word.length; j++) {
+            word[j] = (char) ('a' + random.nextInt(26));
+        }
+
+        return new String(word);
     }
 
     @Transactional
     public void createSpecies() {
-        final Species orangutan = new Species();
-        orangutan.setName("orangutan");
-        speciesRepository.save(orangutan);
-
-        final Species mandrill = new Species();
-        mandrill.setName("mandrill");
-        speciesRepository.save(mandrill);
-
-        final Species gorilla = new Species();
-        gorilla.setName("gorilla");
-        speciesRepository.save(gorilla);
-
-        final Species chimpanzee = new Species();
-        chimpanzee.setName("chimpanzee");
-        speciesRepository.save(chimpanzee);
+        species.forEach(s -> {
+            final Species speciesEntity = new Species();
+            speciesEntity.setName(s);
+            speciesRepository.save(speciesEntity);
+        });
     }
 
     @Transactional
