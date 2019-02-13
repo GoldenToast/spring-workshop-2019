@@ -1,5 +1,7 @@
 package de.inmediasp.springws.zoo;
 
+import de.inmediasp.springws.zoo.animals.Animal;
+import de.inmediasp.springws.zoo.animals.AnimalRepository;
 import de.inmediasp.springws.zoo.buildings.Building;
 import de.inmediasp.springws.zoo.buildings.BuildingRepository;
 import de.inmediasp.springws.zoo.buildings.BuildingType;
@@ -16,12 +18,15 @@ public class ZooInitializer {
 
     private final BuildingRepository buildingRepository;
     private final BuildingTypeRepository buildingTypeRepository;
+    private final AnimalRepository animalRepository;
 
     @Autowired
     public ZooInitializer(final BuildingRepository buildingRepository,
-            final BuildingTypeRepository buildingTypeRepository) {
+            final BuildingTypeRepository buildingTypeRepository,
+            final AnimalRepository animalRepository) {
         this.buildingRepository = buildingRepository;
         this.buildingTypeRepository = buildingTypeRepository;
+        this.animalRepository = animalRepository;
     }
 
     @EventListener
@@ -32,6 +37,7 @@ public class ZooInitializer {
 
         buildingRepository.deleteAll();
         buildingTypeRepository.deleteAll();
+        animalRepository.deleteAll();
 
         createZoo();
 
@@ -41,6 +47,28 @@ public class ZooInitializer {
     public void createZoo() {
         createEnclosureTypes();
         createEnclosures();
+        createAnimals();
+    }
+
+    @Transactional
+    private void createAnimals() {
+        animalRepository.save(new Animal("Affe"));
+        animalRepository.save(new Animal("Kuhfisch"));
+        animalRepository.save(new Animal("Glasfrosch"));
+        animalRepository.save(new Animal("Sägerochen"));
+        animalRepository.save(new Animal("Spiegeleiqualle"));
+        animalRepository.save(new Animal("Streifentenrek"));
+        animalRepository.save(new Animal("Seefledermaus"));
+        animalRepository.save(new Animal("Saiga"));
+        animalRepository.save(new Animal("Gespensterfisch"));
+        animalRepository.save(new Animal("Glasflügler"));
+        animalRepository.save(new Animal("Moschustier"));
+        animalRepository.save(new Animal("Dugong"));
+        animalRepository.save(new Animal("Ozeanschnecke"));
+        animalRepository.save(new Animal("Riesenassel"));
+        animalRepository.save(new Animal("Fetzenfisch"));
+        animalRepository.save(new Animal("Blattschwanzgecko"));
+
     }
 
     @Transactional
