@@ -5,7 +5,8 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.Optional;
 
-@RepositoryRestResource
-public interface EnclosureTypeRepository extends JpaRepository<EnclosureType, Long> {
-    Optional<EnclosureType> findByName(String value);
+@RepositoryRestResource(path = "buildingtypes")
+public interface BuildingTypeRepository extends JpaRepository<BuildingType, Long> {
+
+    Optional<BuildingType> findByName(String value);
 }
